@@ -3,5 +3,5 @@
     "esModuleInterop": true,
     "outDir": "./dist",
     "jsx": "react-jsx"
-  },
+  }
 }
