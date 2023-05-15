@@ -1,5 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Frame from './Frame';
+
+import textImage from './assets/text.jpg'
+
+function groupByN(items: any[], n = 3) {
+  if (!Array.isArray(items)) return []
+
+  let k = -1
+  const result = items.reduce((acc, item, index) => {
+    if (index % n === 0) {
+      k++
+    }
+
+    if (!acc[k]) {
+      acc[k] = []
+    }
+
+    acc[k].push(item)
+
+    return acc
+  }, [])
+
+  return result
+}
 
 function App() {
   const [images, setImages] = useState([])
@@ -32,7 +56,7 @@ function App() {
     return () => {
       clearTimeout(timerId)
     }
-  }, [])
+  }, [isAuth])
 
   useEffect(() => {
     if (!isAuth) return
@@ -49,7 +73,7 @@ function App() {
     return () => {
       clearTimeout(timerId)
     }
-  }, [])
+  }, [isAuth])
 
   if (isAuth && images.length === 0) {
     return <div className="App">Loading...</div>
@@ -59,17 +83,24 @@ function App() {
     return <div className="App"><a href="/login">Login</a></div>
   }
 
+  const groupedImages = groupByN(images, 2)
+
   return (
     <div className="App">
-      We have {images.length} images
       <div className="images">
-        {images.length > 0 && images.map((image, index) => {
-          const src = '/images/' + image
-          return <div className="image" key={index}><img src={src} /></div>
-        })}
+        
+          {groupedImages.length > 0 && groupedImages.map((imageSet: any, index: number) => {
+            if (imageSet.length < 2) return null
+            // return <div className="image" key={index}><img src={image} /></div>
+            return <div key={index} className="frameSet"><Frame frameItems={imageSet} /></div>
+          })}
+        
+      </div>
+      <div className="text">
+        <img src={textImage} alt="" />
       </div>
     </div>
   );
 }
 
-export default App;
+export default App

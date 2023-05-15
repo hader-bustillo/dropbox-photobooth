@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  padding: 10px 0;
+  padding: 73px 0;
 }
 .App a {
   font-size: 1.5rem;
@@ -43,11 +43,23 @@
 
 .images {
   display: flex;
+  overflow-x: scroll;
 }
-.image {
-  padding: 10px;
+.frameSet {
+  margin: 30px 14px;
 }
-.image img {
-  width: 150px;
-  height: 150px;
+.frame {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  width: 137px;
+}
+.frame:first-child {
+  margin-bottom: 30px;
+}
+.text {
+  display: flex;
+  color: #fff;
+  justify-content: center;
+  padding-top: 35px;
 }
