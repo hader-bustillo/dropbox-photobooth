@@ -1,0 +1,9 @@
+.frame {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  width: 137px;
+}
+.frame:first-child {
+  margin-bottom: 30px;
+}

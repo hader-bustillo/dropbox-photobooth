@@ -1,41 +1,33 @@
 import { useEffect, useState } from 'react';
-import './App.css';
-import Frame from './Frame';
+import CarouselBlock from './components/CarouselBlock/CarouselBlock';
 
 import textImage from './assets/text.jpg'
-
-function groupByN(items: any[], n = 3) {
-  if (!Array.isArray(items)) return []
-
-  let k = -1
-  const result = items.reduce((acc, item, index) => {
-    if (index % n === 0) {
-      k++
-    }
-
-    if (!acc[k]) {
-      acc[k] = []
-    }
-
-    acc[k].push(item)
-
-    return acc
-  }, [])
-
-  return result
-}
+import { AuthStatus } from './types';
+import './App.css';
 
 function App() {
   const [images, setImages] = useState([])
+  const [isAuth, setIsAuth] = useState(AuthStatus.PENDING)
 
   console.log('new render', 'we have', images.length, 'images')
 
-  const searchParams = new URLSearchParams(document.location.search)
-
-  const isAuth = searchParams.get('auth')
+  useEffect(() => {
+    fetch('/is-authorized')
+      .then((result) => {
+        return result.json()
+      })
+      .then((response) => {
+        // console.log('auth response', response)
+        if (response.status === true) {
+          setIsAuth(AuthStatus.AUTHORIZED)
+        } else {
+          setIsAuth(AuthStatus.NOT_AUTHORIZED)
+        }
+      })
+  }, [])
 
   useEffect(() => {
-    if (!isAuth) return
+    if (isAuth !== AuthStatus.AUTHORIZED) return
 
     let timerId = setTimeout(function syncImages() {
       console.log('syncImages')
@@ -47,11 +39,11 @@ function App() {
           if (response.status === 401) {
             window.location.href = '/'
           } else {
-            timerId = setTimeout(syncImages, 5000)
+            timerId = setTimeout(syncImages, 15000)
           }
         })
 
-    }, 5000)
+    }, 0)
 
     return () => {
       clearTimeout(timerId)
@@ -59,42 +51,39 @@ function App() {
   }, [isAuth])
 
   useEffect(() => {
-    if (!isAuth) return
+    if (isAuth !== AuthStatus.AUTHORIZED) return
 
     let timerId = setTimeout(function getImages() {
       fetch('/get-images').then((result) => {
         return result.json()
       }).then((result) => {
         setImages(result)
-        timerId = setTimeout(getImages, 5000)
+        timerId = setTimeout(getImages, 20000)
       })
-    }, 5000)
+    }, 0)
 
     return () => {
       clearTimeout(timerId)
     }
   }, [isAuth])
 
-  if (isAuth && images.length === 0) {
+
+  if (isAuth === AuthStatus.PENDING && images.length === 0) {
     return <div className="App">Loading...</div>
   }
 
-  if (images.length === 0) {
-    return <div className="App"><a href="/login">Login</a></div>
+  if (isAuth === AuthStatus.NOT_AUTHORIZED) {
+    return (
+        <div className="App">
+          <a href="/login">Login</a>
+        </div>
+      )
   }
-
-  const groupedImages = groupByN(images, 2)
 
   return (
     <div className="App">
       <div className="images">
-        
-          {groupedImages.length > 0 && groupedImages.map((imageSet: any, index: number) => {
-            if (imageSet.length < 2) return null
-            // return <div className="image" key={index}><img src={image} /></div>
-            return <div key={index} className="frameSet"><Frame frameItems={imageSet} /></div>
-          })}
-        
+      {images.length > 0 && <CarouselBlock images={images} />}
       </div>
       <div className="text">
         <img src={textImage} alt="" />

@@ -6,7 +6,15 @@ import store from '../store'
 
 async function syncImagesService() {
   try {
-    const response: any = await store.dbx.filesListFolder({ path: '/images' })
+    const response: any = await store.dbx.filesListFolder({ path: '', shared_link: {
+      url: 'https://www.dropbox.com/scl/fo/oshpp9zz2aapat9swthdu/h?dl=0&rlkey=4xp62oh3zutox8029jvqgnia6'
+    }})
+
+    // update accessToken in storage
+    const accessToken = store.dbx.auth.getAccessToken()
+    if (accessToken !== store.accessToken) {
+      store.accessToken = accessToken
+    }
 
     const files = response.result.entries
 
