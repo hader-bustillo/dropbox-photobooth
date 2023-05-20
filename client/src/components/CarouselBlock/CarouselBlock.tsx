@@ -21,6 +21,7 @@ const CarouselBlock = ( props: any ) => {
       <Carousel
         infinite
         autoPlay
+        draggable={false}
         arrows={false}
         autoPlaySpeed={3000}
         containerClass="container-with-dots"
