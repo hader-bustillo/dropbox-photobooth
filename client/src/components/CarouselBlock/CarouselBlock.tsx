@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 
@@ -11,9 +12,11 @@ const responsive = {
   },
 }
 
-const CarouselBlock = ( props: any ) => {
-  const { images } = props
+type CarouselBlockType = {
+  images: string[]
+}
 
+const CarouselBlock: FC<CarouselBlockType> = ({ images }) => {
   const groupedImages = groupByN(images, 2)
 
   return (
@@ -21,7 +24,6 @@ const CarouselBlock = ( props: any ) => {
       <Carousel
         infinite
         autoPlay
-        draggable={false}
         arrows={false}
         autoPlaySpeed={3000}
         containerClass="container-with-dots"
@@ -30,7 +32,7 @@ const CarouselBlock = ( props: any ) => {
         customTransition="transform 700ms ease-in-out"
         transitionDuration={700}
       >
-        {groupedImages.map((imageSet: any, index: number) => {
+        {groupedImages.map((imageSet, index: number) => {
           if (imageSet.length < 2) return null
 
           return <div key={index} className="frameSet"><Frame frameItems={imageSet} /></div>

@@ -1,6 +1,11 @@
+import { FC } from 'react'
 import './Frame.css'
 
-const Frame = ({ frameItems = [] }) => {
+type FrameType = {
+  frameItems: string[]
+}
+
+const Frame: FC<FrameType> = ({ frameItems = [] }) => {
   return (
     <>
       {frameItems.map((frame, index) => {

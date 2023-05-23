@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
-import CarouselBlock from './components/CarouselBlock/CarouselBlock';
+import { useEffect, useState } from 'react'
+import CarouselBlock from './components/CarouselBlock/CarouselBlock'
+
+import { AuthStatus } from './types'
 
 import textImage from './assets/text.jpg'
-import { AuthStatus } from './types';
-import './App.css';
+import './App.css'
 
 function App() {
-  const [images, setImages] = useState([])
-  const [isAuth, setIsAuth] = useState(AuthStatus.PENDING)
+  const [images, setImages] = useState<string[]>([])
+  const [isAuth, setIsAuth] = useState<AuthStatus>(AuthStatus.PENDING)
 
   console.log('new render', 'we have', images.length, 'images')
 
