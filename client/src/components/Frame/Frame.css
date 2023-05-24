@@ -1,9 +1,11 @@
 .frame {
   display: flex;
   flex-direction: column;
-  background: #fff;
-  width: 137px;
+  align-items: center;
 }
 .frame:first-child {
   margin-bottom: 30px;
+}
+.frame img {
+  width: 137px;
 }
