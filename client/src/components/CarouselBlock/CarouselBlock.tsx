@@ -8,7 +8,7 @@ import Frame from '../Frame/Frame'
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1 },
-    items: 6,
+    items: 5,
   },
 }
 

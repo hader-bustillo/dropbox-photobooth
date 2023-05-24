@@ -1,7 +1,12 @@
 .frame {
   display: flex;
   flex-direction: column;
+  width: 137px;
   align-items: center;
+  background-color: #fff;
+  margin: auto;
+  padding: 15px;
+  padding-bottom: 67px;
 }
 .frame:first-child {
   margin-bottom: 30px;
