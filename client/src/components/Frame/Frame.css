@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 137px;
   margin: auto;
-  border: 3px solid #fff;
+  border: 6px solid #fff;
 }
 .frame:first-child {
   margin-bottom: 30px;
