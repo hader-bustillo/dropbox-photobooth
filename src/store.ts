@@ -4,7 +4,8 @@ const store = {
   clientId: null,
   cursor: null,
   dbx: null,
-  dbxAuth: null
+  dbxAuth: null,
+  files: []
 }
 
 export default store

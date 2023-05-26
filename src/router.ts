@@ -49,18 +49,8 @@ router.get('/auth',  async (req, res) => {
     const response: any = await store.dbx.auth.getAccessTokenFromCode(process.env.DROPBOX_REDIRECT_URI, code)
     console.log('result', response)
 
-    // console.log('get access token', )
-
-    // console.log( 'getAccessTokenExpiresAt',  store.dbxAuth.getAccessTokenExpiresAt() )
-    // console.log( 'getRefreshToken',  store.dbxAuth.getRefreshToken() )
-  
     store.accessToken = response.result.access_token
     store.refreshToken = response.result.refresh_token
-
-    // store.dbxAuth.setAccessToken(store.accessToken)
-    // store.dbxAuth.setRefreshToken(store.refreshToken)
-
-    // await store.dbxAuth.checkAndRefreshAccessToken()
 
     const date = new Date()
     date.setMilliseconds(date.getMilliseconds() + response.result.expires_in * 1000)
@@ -69,26 +59,6 @@ router.get('/auth',  async (req, res) => {
     store.dbx.auth.setRefreshToken(store.refreshToken)
     store.dbx.auth.setAccessTokenExpiresAt(date)
     
-    // store.accessToken = 'asl.BeiyixlWwDWvRQlOUkVijAjSD4si1Z9GefqgXtYmzlr14l1XmlI6V2nWeu2NwYMeIWz-szesX0HBQt5Z-Ku_fYsaLPzAa_MOpuDZCqz6vMq_OrhYJ3i69CiNmfxnZfMiTIUq70w'
-    // store.refreshToken = 'MDACer0cpcsAAAAAAAAAASbSyYOMlaUHxjMKKXF6Zruo5kCCUiraNZOJMscKd2uO'
-    // store.clientId = process.env.DROPBOX_CLIENT_ID
-
-    // const date = new Date()
-    // date.setMinutes(date.getMinutes() + 5)
-
-    // store.dbx = new Dropbox({ 
-    //   accessToken: store.accessToken, 
-    //   refreshToken: store.refreshToken, 
-    //   clientId: process.env.DROPBOX_CLIENT_ID, 
-    //   clientSecret: process.env.DROPBOX_CLIENT_SECRET, 
-    //   // accessTokenExpiresAt: date
-    // })
-
-    // store.dbx = new Dropbox({ auth: store.dbxAuth })
-
-    // console.log('store.dbx', store.dbx)
-
-    // return res.redirect('/get-tokens')
     return res.redirect('/')
   } catch (err) {
     console.log(err)
@@ -171,6 +141,19 @@ async function syncImages (_req: Request, res: Response) {
 
 }
 
+// async function readLocalImages (_req: Request, res: Response) {
+//   try {
+//     await readLocalImagesService()
+//     console.log('finish reading in router')
+//     return res.json({ "message": "done" })
+//   } catch (err) {
+//     return res.status(401)
+//       .json({ 'message': err })
+//   }
+// }
+
 router.get('/sync-images', syncImages)
+
+// router.get('/read-local-files', readLocalImages)
 
 export default router
